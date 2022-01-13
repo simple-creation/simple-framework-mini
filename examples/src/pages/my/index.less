@@ -1,0 +1,129 @@
+
+@import '../../app.less';
+@import '../../assets/style/icon.less';
+
+.page-index {
+  padding-top: 60px;
+  padding-bottom: 100px;
+  min-height: 100vh;
+  box-sizing: border-box;
+
+  .logo {
+    margin: 0 auto;
+    margin-top: 60px;
+    font-size: 0;
+    text-align: center;
+
+    .img {
+      width: 270px;
+      height: 270px;
+    }
+  }
+
+  .page-title {
+    margin-top: 24px;
+    color: #333;
+    font-size: 36px;
+    text-align: center;
+  }
+
+}
+
+.page-body {
+  padding: 40px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 40px;
+  .header__left {
+    display: flex;
+    flex: 1;
+    flex-direction:column;
+    align-items: center;
+  }
+  .header__img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    flex:1;
+  }
+  .header__info {
+    padding: 20px;
+    text-align: center;
+    flex:1;
+    .header__info__name {
+      font-size: 36px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .header__info__level {
+      color: #888888;
+      font-size: 32px;
+      border: 1px solid #888888;
+      padding: 2px 20px;
+      border-radius: 40px;
+
+    }
+  }
+  .exit_icon {
+    float: right;
+  }
+}
+
+.user_count {
+  display: flex;
+  text-align: center;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(0,0,0,.1);
+  .user_count__sub {
+    flex: 1;
+    font-size: 22px;
+    color: #888888;
+    .user_count__sub--num {
+      color: #323232;
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.user_brief {
+  .user_brief__item {
+    display: flex;
+    align-items: center;
+    &:last-child {
+      border-bottom: 1px solid rgba(0,0,0,.1);
+      .user_brief__item__text {
+        border-bottom: none;
+      }
+    }
+    .user_brief__item__img {
+      width: 70px;
+      height: 70px;
+      margin: 20px 40px;
+    }
+    .user_brief__item__text {
+      flex: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(0,0,0,.1);
+      line-height: 110px;
+      margin-right: 40px;
+      .at-icon {
+        font-size: 40px;
+        //margin-right: 40px;
+      }
+    }
+  }
+
+}
+
+
+
+
+
+

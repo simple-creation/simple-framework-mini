@@ -1,0 +1,8 @@
+
+
+import './detail.less';
+
+
+
+
+
