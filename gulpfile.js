@@ -32,21 +32,40 @@ function babelConfig(moduleType) {
         babelrc: false,
         presets: [
             ["@babel/preset-env", { "modules": moduleType }],
-           
             "@babel/preset-react",
         ],
-        "plugins": [
-            "@babel/plugin-syntax-dynamic-import",
-            "@babel/plugin-proposal-class-properties"
+        plugins: [
+            "@babel/plugin-proposal-object-rest-spread",
+            ["@babel/plugin-proposal-decorators", { "legacy": true }],
+            "@babel/plugin-transform-runtime"
+            // "@babel/plugin-proposal-class-properties",
+            // "@babel/plugin-transform-classes"
         ]
-        // plugins: [
-        //     "@babel/plugin-proposal-object-rest-spread",
-        //     ["@babel/plugin-proposal-decorators", { "legacy": true }]//,
-        //     // "@babel/plugin-proposal-class-properties",
-        //     // "@babel/plugin-transform-classes"
-        // ]
     };
 }
+
+
+
+// function babelConfig(moduleType) {
+//     return {
+//         babelrc: false,
+//         presets: [
+//             ["@babel/preset-env", { "modules": moduleType }],
+           
+//             "@babel/preset-react",
+//         ],
+//         "plugins": [
+//             "@babel/plugin-syntax-dynamic-import",
+//             "@babel/plugin-proposal-class-properties"
+//         ]
+//         // plugins: [
+//         //     "@babel/plugin-proposal-object-rest-spread",
+//         //     ["@babel/plugin-proposal-decorators", { "legacy": true }]//,
+//         //     // "@babel/plugin-proposal-class-properties",
+//         //     // "@babel/plugin-transform-classes"
+//         // ]
+//     };
+// }
 
 // gulp.task('copyLess',()=>{
 
