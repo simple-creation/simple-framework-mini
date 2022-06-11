@@ -3,10 +3,8 @@ export default class PageHelper{
     static showToast(params){
         showToast(params);
     }
-    static setNavigationBarTitle(titleName){
-        Taro.setNavigationBarTitle({
-            title: titleName
-        })
+    static setNavigationBarTitle(param){
+        Taro.setNavigationBarTitle(param);
     }
         
   

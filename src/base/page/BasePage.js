@@ -37,8 +37,8 @@ export default class BasePage extends Component{
         return ClientUser;
     }
 
-    setNavigationBarTitle =(titleName){
-        PageHelper.setNavigationBarTitle(titleName);
+    setNavigationBarTitle =(param){
+        PageHelper.setNavigationBarTitle(param);
     }
     gotoPage = (params) => {
         PageRouter.gotoPage(params);
