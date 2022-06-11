@@ -40,6 +40,9 @@ export default class BasePage extends Component{
     setNavigationBarTitle =(param){
         PageHelper.setNavigationBarTitle(param);
     }
+    setPageTitle =(titleText){
+        PageHelper.setNavigationBarTitle({title:titleText});
+    }
     gotoPage = (params) => {
         PageRouter.gotoPage(params);
     }
