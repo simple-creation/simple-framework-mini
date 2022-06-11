@@ -12,29 +12,34 @@ function initializeDevice() {
         //         data['networkType'] = res.networkType
         //     }
         // });
-        getNetworkType({
-            success: function (res) {
-                data['networkType'] = res.networkType
-            }
-        });
-
-
-        getSystemInfo({
-            success: function (res) {
-                if (res.errMsg == 'getSystemInfo:ok') {
-                    data['language'] = res.language;
-                    data['version'] = res.version;
-                    data['model'] = res.model; //'iPhone 6'
-                    data['pixelRatio'] = res.pixelRatio;
-                    data['windowWidth'] = res.windowWidth;
-                    data['windowHeight'] = res.windowHeight;
-
-                    data['system'] = res.system;
-                    data['platform'] = res.platform;
-                    data['ver'] = res.SDKVersion;
+        if (getNetworkType){
+            getNetworkType({
+                success: function (res) {
+                    data['networkType'] = res.networkType
                 }
-            }
-        });
+            });
+
+        }
+       
+        if (getSystemInfo){
+            getSystemInfo({
+                success: function (res) {
+                    if (res.errMsg == 'getSystemInfo:ok') {
+                        data['language'] = res.language;
+                        data['version'] = res.version;
+                        data['model'] = res.model; //'iPhone 6'
+                        data['pixelRatio'] = res.pixelRatio;
+                        data['windowWidth'] = res.windowWidth;
+                        data['windowHeight'] = res.windowHeight;
+    
+                        data['system'] = res.system;
+                        data['platform'] = res.platform;
+                        data['ver'] = res.SDKVersion;
+                    }
+                }
+            });
+        }
+        
 
     }
 }

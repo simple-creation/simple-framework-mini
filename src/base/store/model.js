@@ -16,31 +16,37 @@ export default class Model {
     if (props && props.gateway) {
       this.gateway = props.gateway;
     }
+    if (props && props.errorHandler) {
+      this.errorHandler = props.errorHandler;
+    }
   }
-  processUnauthentication = (response) => {
-    Taro.navigateTo({ url: '/pages/user/login/index' });
-  }
+
   saveToken(token) {
     Storage.saveToken(token);
   }
   checkResponse(res) {
-    if (res.statusCode === HTTP_STATUS.NOT_FOUND) {
-      return logError('api', '请求资源不存在')
-    } else if (res.statusCode === HTTP_STATUS.BAD_GATEWAY) {
-      return logError('api', '服务端出现了问题')
-    } else if (res.statusCode === HTTP_STATUS.FORBIDDEN) {
-      return logError('api', '没有权限访问')
-    } else if (res.statusCode === HTTP_STATUS.AUTHENTICATE) {
-      this.processUnauthentication(res);
-      return logError('api', '请先登录')
-    } else if (res.statusCode === HTTP_STATUS.SERVER_ERROR) {
-      return logError('api', '服务异常')
-    } else if (res.statusCode === HTTP_STATUS.SUCCESS) {
-      return res.data
+    if (res.statusCode === HTTP_STATUS.SUCCESS) {
+      return true;
     }
-    return true;
+    if (res.statusCode === HTTP_STATUS.NOT_FOUND) {
+      logError('api', '请求资源不存在')
+
+    } else if (res.statusCode === HTTP_STATUS.BAD_GATEWAY) {
+      logError('api', '服务端出现了问题')
+
+    } else if (res.statusCode === HTTP_STATUS.SERVER_ERROR) {
+      logError('api', '服务异常')
+    }
+    if (this.errorHandler) {
+      this.errorHandler(res);
+    }
+    return false;
   }
   clearToken() {
+    //Taro.removeStorageSync('token');
+    Storage.clearToken();
+  }
+  cleanToken() {
     //Taro.removeStorageSync('token');
     Storage.clearToken();
   }
@@ -64,12 +70,11 @@ export default class Model {
     return fullPath;
   }
 
-
-  fetch_get(url, query,) {
+  async get(url, query,) {
     let that = this;
     let params = { cid: Client.getClientId(), ...query };
-    return new Promise((resolve, reject) => {
-      request({
+    
+    return request({
         url: this.composeFullUrl(url),
         header: {
           'Content-Type': 'application/json',
@@ -77,54 +82,114 @@ export default class Model {
           // cid: Client.getClientId(),
         },
         data: params,
-        method: 'get',
-        success(response) {
-          //console.log(response);
-          if (that.checkResponse(response)) {
-            resolve(response.data.data);
-          } else {
-            reject(response.data);
-          }
-        },
-        fail(error) {
-          //console.log(error);
-          logError('get', '网络异常')
-          reject(error);
-          Taro.showToast({ title: '接口异常', icon: 'error', duration: 2000 })
-        }
-      });
+        method: 'get'
+      }).then((response)=>{
+        return response.data;
+     });
+  }
+
+  async post(url, body, options) {
+    let that = this;
+    let params = { params: body, head: { cid: Client.getClientId() } };
+    return  request({
+      url: this.composeFullUrl(url),
+      header: {
+        'Content-Type': 'application/json',
+        token: this.getToken(),
+      },
+      data: params,
+      method: 'post'
+    }).then((response)=>{
+       return response.data;
     });
   }
+
+  async fetch_get(url, query,) {
+    let that = this;
+    let params = { cid: Client.getClientId(), ...query };
+    
+    return request({
+        url: this.composeFullUrl(url),
+        header: {
+          'Content-Type': 'application/json',
+          token: this.getToken(),
+          // cid: Client.getClientId(),
+        },
+        data: params,
+        method: 'get'
+      }).then((response)=>{
+        return response.data.data;
+     });
+  }
+  
   async fetch_post(url, body, options) {
     let that = this;
     let params = { params: body, head: { cid: Client.getClientId() } };
-    return new Promise((resolve, reject) => {
-     
-        request({
-          url: this.composeFullUrl(url),
-          header: {
-            'Content-Type': 'application/json',
-            token: this.getToken(),
-          },
-          data: params,
-          method: 'post',
-          success(response) {
-            resolve(response.data);
-            // if (that.checkResponse(response)) {
-            //   resolve(response.data);
-            // } else {
-            //   reject(response.data);
-            // }
-          },
-          fail(error) {
-            console.log("network request exception......");
-            reject(error);
-            //Taro.showToast({ title: '接口异常', icon: 'error', duration: 2000 })
-          }
-        });//end request
-     
+    return  request({
+      url: this.composeFullUrl(url),
+      header: {
+        'Content-Type': 'application/json',
+        token: this.getToken(),
+      },
+      data: params,
+      method: 'post'
+    }).then((response)=>{
+       return response.data;
     });
-
   }
+
+  // fetch_get(url, query,) {
+  //   let that = this;
+  //   let params = { cid: Client.getClientId(), ...query };
+  //   return new Promise((resolve, reject) => {
+  //     request({
+  //       url: this.composeFullUrl(url),
+  //       header: {
+  //         'Content-Type': 'application/json',
+  //         token: this.getToken(),
+  //         // cid: Client.getClientId(),
+  //       },
+  //       data: params,
+  //       method: 'get',
+  //       success(response) {
+  //         //console.log(response);
+  //         if (that.checkResponse(response)) {
+  //           resolve(response.data.data);
+  //         } else {
+  //           reject(response.data);
+  //         }
+  //       },
+  //       fail(error) {
+  //         logError('get', '网络异常')
+  //         reject(error);
+  //       }
+  //     }).catch((e) => { console.log('Network exception is existed') });//end request
+  //   });
+  // }
+  // async fetch_post(url, body, options) {
+  //   let that = this;
+  //   let params = { params: body, head: { cid: Client.getClientId() } };
+  //   return new Promise((resolve, reject) => {
+
+  //       request({
+  //         url: this.composeFullUrl(url),
+  //         header: {
+  //           'Content-Type': 'application/json',
+  //           token: this.getToken(),
+  //         },
+  //         data: params,
+  //         method: 'post',
+  //         success(response) {
+  //           resolve(response.data);
+  //         },
+  //         fail(error) {
+  //           console.log('net exception -->',error);
+  //           reject(error);
+  //         }
+  //       }).catch((e) => {console.log('Network exception is existed')});//end request 
+  //   });
+  // }
+
+
 
 }

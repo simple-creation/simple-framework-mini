@@ -46,9 +46,9 @@ export default class Index extends BasePage {
           resultList.push(item);
         }
     });
-    ServerModel.createPage({blocks:resultList}).then((result)=>{console.log(result)});
+    ServerModel.createPage({blocks:resultList})
+   
   }
-  
   onSelect =(result)=>{
       console.log('selected data..',result)
       this.setState({selectedList:result});

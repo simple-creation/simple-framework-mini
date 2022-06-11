@@ -1,7 +1,7 @@
 {
   "name": "simple-framework-mini",
-  "version": "0.1.25",
-  "description": "simplify mini-program UI lib",
+  "version": "0.1.33",
+  "description": "simplify mini-program UI 0lib",
   "main": "lib/index.js",
   "module": "es/index.js",
   "files": [
